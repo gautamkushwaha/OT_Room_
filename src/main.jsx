@@ -65,8 +65,14 @@ function Machines(){return <group>
   {/* A compact instrument table puts the cautery unit within Doctor 2's reach. */}
   <Block position={[1.52,.82,-.5]} size={[.74,.12,.65]} color="#b5cbd0"/>
   <Block position={[1.52,.41,-.5]} size={[.09,.76,.09]} color="#6d8c98"/>
-  <Block position={[1.52,.96,-.5]} size={[.52,.22,.41]} color="#446d7b"/>
-  <Block position={[1.52,1.03,-.282]} size={[.34,.11,.02]} color="#203b49"/>
+  <group position={[1.52,.96,-.5]} rotation={[0,Math.PI/4,0]}>
+    <Block size={[.52,.22,.41]} color="#446d7b"/>
+    {/* The controls face the doctor on the positive X side of the table. */}
+    <Block position={[0,.07,.218]} size={[.34,.11,.02]} color="#203b49"/>
+    <Joint position={[-.19,-.03,.22]} color="#f8c663" r={.025}/>
+  </group>
+  {/* A short, guided lead connects the machine to the table-side socket. */}
+  <Tube points={[[1.36,.94,-.66],[1.12,.82,-.63],[1.12,.7,-.27],[1.1,.7,.2],[1.055,.68,.48]]} color={C.electric} radius={.018}/>
   <Label position={[1.52,1.27,-.5]} size={.13}>CAUTERY UNIT</Label>
   <Block position={[-3.5,.47,.8]} size={[.7,.94,.7]} color="#446d7b"/><Label position={[-3.5,1.12,.8]} size={.14}>SUCTION</Label>
   <Block position={[2.7,.45,-2.22]} size={[.48,.9,.42]} color="#39738a"/><Label position={[2.7,1.1,-2.22]} size={.12}>ECG</Label>
