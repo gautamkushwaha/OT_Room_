@@ -44,23 +44,33 @@ function Person({position=[0,0,0],lying=false,color='#4da6a0'}) {
     <Block position={[0,1.6,.15]} size={[.27,.11,.04]} color="#e8f2f3"/>
   </group>;
 }
-function Table(){return <group>
+function Table({before=false}){return <group>
   <Block position={[0,.72,0]} size={[1.75,.22,2.35]} color="#8baab0"/>
   <Block position={[0,.43,0]} size={[.48,.52,.55]} color="#668794"/>
   <Block position={[0,.84,-.76]} size={[1.5,.08,.55]} color="#a7bfc4"/>
   <Person position={[0,1.05,0]} lying/>
   <Label position={[0,1.42,.4]} size={.13}>PATIENT</Label>
   <Label position={[0,.43,-1.42]} size={.15}>OT TABLE</Label>
-  {/* Mount the outlet on the table's side panel, away from its patient surface. */}
-  <Block position={[.95,.68,.35]} size={[.14,.32,.58]} color="#e3c36b"/>
-  <Block position={[1.028,.68,.35]} size={[.025,.23,.46]} color="#172d38"/>
-  <Joint position={[1.055,.68,.22]} color={C.electric} r={.045}/>
-  <Joint position={[1.055,.68,.48]} color={C.electric} r={.045}/>
-  <Label position={[1.65,.99,.35]} size={.12}>OT TABLE POWER SOCKET</Label>
+  {/* The table-side socket belongs only to the proposed layout. */}
+  {!before&&<>
+    <Block position={[.95,.68,.35]} size={[.14,.32,.58]} color="#e3c36b"/>
+    <Block position={[1.028,.68,.35]} size={[.025,.23,.46]} color="#172d38"/>
+    <Joint position={[1.055,.68,.22]} color={C.electric} r={.045}/>
+    <Joint position={[1.055,.68,.48]} color={C.electric} r={.045}/>
+    <Label position={[1.65,.99,.35]} size={.12}>OT TABLE POWER SOCKET</Label>
+  </>}
   </group>}
-function Machines(){return <group>
-  <Block position={[-3.55,.71,-1.4]} size={[.8,1.42,.75]} color="#446d7b"/><Label position={[-3.55,1.58,-1.4]} size={.14}>ANAESTHESIA</Label>
-  <Block position={[3.45,1,-1.55]} size={[.75,1.9,.6]} color="#446d7b"/><Block position={[3.45,1.35,-1.22]} size={[.6,.51,.05]} color="#162c39"/><Label position={[3.45,2.13,-1.55]} size={.14}>MONITOR</Label>
+function Machines({before=false}){return <group>
+  <Block position={[-3.55,.71,-1.4]} size={[.8,1.42,.75]} color="#446d7b"/><Label position={[-3.55,1,-1]} size={.14}>ANAESTHESIA</Label>
+  {/* The monitor is mounted on the same anaesthesia workstation in every view. */}
+  <Block position={[-3.55,1.72,-1.4]} size={[.1,.65,.1]} color="#6d8c98"/>
+  <Block position={[-3.55,1.91,-1.35]} size={[.75,.52,.16]} color="#446d7b"/>
+  <Block position={[-3.55,1.91,-1.257]} size={[.61,.39,.035]} color="#162c39"/>
+  <Label position={[-3.55,2.045,-1.227]} size={.075} color="#8ee8d2">ANAESTHESIA</Label>
+  <Label position={[-3.55,1.95,-1.227]} size={.075} color="#8ee8d2">ECG</Label>
+  <Label position={[-3.55,1.855,-1.227]} size={.075} color="#8ee8d2">SpO₂</Label>
+  <Label position={[-3.55,1.76,-1.227]} size={.075} color="#8ee8d2">BP</Label>
+  <Label position={[-3.55,2.3,-1.35]} size={.14}>MONITOR</Label>
   <Block position={[3.4,.49,.75]} size={[.7,.98,.7]} color="#446d7b"/><Label position={[3.4,1.15,.75]} size={.14}>POWER CART</Label>
   {/* A compact instrument table puts the cautery unit within Doctor 2's reach. */}
   <Block position={[1.52,.82,-.5]} size={[.74,.12,.65]} color="#b5cbd0"/>
@@ -71,13 +81,10 @@ function Machines(){return <group>
     <Block position={[0,.07,.218]} size={[.34,.11,.02]} color="#203b49"/>
     <Joint position={[-.19,-.03,.22]} color="#f8c663" r={.025}/>
   </group>
-  {/* A short, guided lead connects the machine to the table-side socket. */}
-  <Tube points={[[1.36,.94,-.66],[1.12,.82,-.63],[1.12,.7,-.27],[1.1,.7,.2],[1.055,.68,.48]]} color={C.electric} radius={.018}/>
+  {/* The guided lead exists only in the proposed layout. */}
+  {!before&&<Tube points={[[1.36,.94,-.66],[1.12,.82,-.63],[1.12,.7,-.27],[1.1,.7,.2],[1.055,.68,.48]]} color={C.electric} radius={.018}/>}
   <Label position={[1.52,1.27,-.5]} size={.13}>CAUTERY UNIT</Label>
   <Block position={[-3.5,.47,.8]} size={[.7,.94,.7]} color="#446d7b"/><Label position={[-3.5,1.12,.8]} size={.14}>SUCTION</Label>
-  <Block position={[2.7,.45,-2.22]} size={[.48,.9,.42]} color="#39738a"/><Label position={[2.7,1.1,-2.22]} size={.12}>ECG</Label>
-  <Block position={[3.45,.45,-2.3]} size={[.48,.9,.42]} color="#39738a"/><Label position={[3.45,1.1,-2.3]} size={.12}>SpO₂</Label>
-  <Block position={[4.18,.45,-2.22]} size={[.48,.9,.42]} color="#39738a"/><Label position={[4.18,1.1,-2.22]} size={.12}>BP</Label>
   <Tube points={[[.42,1.12,-.45],[.52,1.24,-.28]]} color={C.bluetooth} radius={.016}/>
   <Tube points={[[.58,1.08,-.38],[.74,1.08,-.32]]} color={C.bluetooth} radius={.016}/>
   <Tube points={[[-3.35,1.2,-1.3],[-3.35,.22,-1.3],[-3.35,-.14,-1.3]]} color={C.gas} radius={.055}/>
@@ -89,10 +96,9 @@ function Machines(){return <group>
   <Label position={[-2.1,1.91,.2]} size={.12}>DOCTOR 1</Label><Label position={[2.1,1.91,.08]} size={.12}>DOCTOR 2</Label>
   </group>}
 function Bluetooth(){return <group>
-  {[2.7,3.45,4.18].map((x,i)=><Tube key={x} dashed points={[[.6,1.18,-.48],[1.5+i*.14,1.7,-1.1],[x,1.36,-2.22]]} color={C.bluetooth}/>)}
-  <Tube dashed points={[[3.45,1.3,-2.25],[3.42,1.85,-1.55]]} color={C.bluetooth}/>
-  <Joint position={[.6,1.18,-.48]} color={C.bluetooth}/><Joint position={[3.42,1.85,-1.55]} color={C.bluetooth}/>
-  <Label position={[2.08,2,-1]} color={C.bluetooth}>BLUETOOTH DATA</Label>
+  <Tube dashed points={[[.6,1.18,-.48],[-.75,2.05,-.95],[-2.15,2.32,-1.15],[-3.55,1.91,-1.25]]} color={C.bluetooth}/>
+  <Joint position={[.6,1.18,-.48]} color={C.bluetooth}/><Joint position={[-3.55,1.91,-1.25]} color={C.bluetooth}/>
+  <Label position={[.1,2.75,-1.8]} color={C.bluetooth}>BLUETOOTH DATA</Label>
   <Tube points={[[.8,1,-.55],[.45,.92,-.5]]} color={C.bluetooth} radius={.017}/>
   <Label position={[.15,1.35,-1.05]} size={.13}>Sensor contact / short leads remain</Label>
   </group>}
@@ -149,23 +155,27 @@ function Folding({extend,bend}) {
     <Label position={[1.1,1.7,1.23]} size={.13}>{extend<35?'WIRE RETRACTED':extend>75?'WIRE EXTENDED':'WIRE STRETCHING'}</Label>
     </group>
 }
-function Before(){return <group>{[
+function Before(){return <group>
+  {/* The cautery stays on its table, fed by a tangled lead rising from the floor. */}
+  <Tube points={[[3.4,.1,.75],[2.92,.075,1.02],[2.48,.075,.69],[2.76,.075,.32],[3.02,.075,.7],[2.51,.075,1.03],[2.02,.075,.65],[1.9,.075,-.15],[1.62,.18,-.48],[1.36,.94,-.66]]} color={C.electric} radius={.025}/>
+  <Label position={[2.52,.34,1.15]} size={.13} color="#ffd693">TANGLED CAUTERY WIRE</Label>
+  {[
   [[-3.5,.8,-1.4],[-2,.07,1.4],[-.6,1.12,-.85]],
-  [[3.45,1.1,-1.5],[2.6,.05,1.6],[.7,1.1,-.5]],
+  [[-3.55,1.91,-1.25],[-2.75,.05,-2.2],[-1.2,.05,1.6],[.7,1.1,-.5]],
   [[3.4,.5,.75],[2,.06,1.8],[.7,1.1,.3]],
   [[-3.5,.45,.8],[-2.4,.05,2],[-.8,1.12,.3]]
 ].map((p,i)=><Tube key={i} points={p} color={i===3?C.suction:'#ec9b82'} radius={.027}/>)}<Label position={[0,.19,2.6]} color="#ffad98" size={.18}>LOOSE WIRES / PIPES</Label></group>}
 function Scene({tab,extend,bend,open}){
   let all=tab==='overview';
   return <><color attach="background" args={['#0e2532']}/><ambientLight intensity={1.1}/><directionalLight position={[3,7,5]} intensity={2.2} castShadow shadow-mapSize={[1024,1024]}/>
-    <Room floorOpen={open}/><Table/><Machines/>
+    <Room floorOpen={open}/><Table before={tab==='before'}/><Machines before={tab==='before'}/>
     {tab==='before'&&<Before/>}{(all||tab==='bluetooth')&&<Bluetooth/>}{(all||tab==='ceiling')&&<Ceiling/>}{(all||tab==='floor')&&<Floor open={open}/>}{(all||tab==='folding')&&<Folding extend={extend} bend={bend}/>}
     <OrbitControls makeDefault minDistance={5.5} maxDistance={18} maxPolarAngle={Math.PI/2.05} target={[0,1,0]}/>
   </>;
 }
 function App(){const [tab,setTab]=useState('overview'),[extend,setExtend]=useState(55),[bend,setBend]=useState(45),[open,setOpen]=useState(false),[animating,setAnimating]=useState(false);
  useEffect(()=>{if(!animating)return;let direction=1;const timer=setInterval(()=>setExtend(v=>{let next=v+direction*2.5;if(next>=100){direction=-1;next=100}if(next<=0){direction=1;next=0}return next}),35);return()=>clearInterval(timer)},[animating]);
- const copy={before:'Original loose cables and pipes, with all referenced OT instruments and staff visible.',overview:'All four proposed systems around a patient and two doctors. Select a system to inspect it alone.',folding:'Play the motion or move the sliders to show the cable leaving the reel, stretching, bending at the hinge and returning.',bluetooth:'Separate ECG, pulse oximetry and BP modules transmit data. Patient sensors still need contact; the anaesthesia breathing pipe remains physical.',ceiling:'The pendant positions dedicated outlets above the table for easy local connection.',floor:'Open the access panel to reveal separate service runs and junction points. Sockets near the table connect devices locally.'};
+ const copy={before:'Original loose cables and pipes, with all referenced OT instruments and staff visible.',overview:'All four proposed systems around a patient and two doctors. Select a system to inspect it alone.',folding:'Play the motion or move the sliders to show the cable leaving the reel, stretching, bending at the hinge and returning.',bluetooth:'ECG, SpO₂ and BP readings appear on the monitor attached to the anaesthesia workstation. Patient sensors still need contact; the breathing pipe remains physical.',ceiling:'The pendant positions dedicated outlets above the table for easy local connection.',floor:'Open the access panel to reveal separate service runs and junction points. Sockets near the table connect devices locally.'};
  return <><header><strong><span>OT</span> / 3D systems</strong><span className="badge">Interactive concept model</span></header><main><div className="top"><h1>Operating theatre service design</h1><p>Rotate the room and inspect each system separately.</p></div><nav aria-label="Systems">{tabs.map(([id,title])=><button key={id} aria-current={tab===id?'page':undefined} onClick={()=>setTab(id)}>{title}</button>)}</nav><div className="layout"><section className="model"><Canvas shadows camera={{position:[7,6,8],fov:42}}><Scene tab={tab} extend={extend} bend={bend} open={open}/></Canvas><div className="viewport-hint">Drag to rotate · scroll to zoom</div></section><aside><h2>{tabs.find(([id])=>id===tab)[1]}</h2><p>{copy[tab]}</p>{(tab==='folding'||tab==='overview')&&<><button className="action" onClick={()=>setAnimating(v=>!v)}>{animating?'Pause wire motion':'Play extend / retract'}</button><label>Extend support <output>{extend}%</output><input aria-label="Extend support" type="range" min="0" max="100" value={extend} onChange={e=>{setAnimating(false);setExtend(+e.target.value)}}/></label><label>Bend at hinge <output>{bend}%</output><input aria-label="Bend at hinge" type="range" min="0" max="100" value={bend} onChange={e=>setBend(+e.target.value)}/></label></>}{(tab==='floor'||tab==='overview')&&<button className="action" onClick={()=>setOpen(v=>!v)}>{open?'Close floor panel':'Open floor panel'}</button>}<div className="legend">{Object.entries(C).filter(([k])=>k!=='frame').map(([name,col])=><div key={name}><i style={{background:col}}/>{name}</div>)}</div></aside></div><footer><strong>Concept for discussion.</strong> Clinical engineering must approve alarm reliability, Bluetooth interoperability, electrical separation, medical gas and suction routing, infection control, clean water and tissue/fluid waste pathways, access panel sealing, and service schedules. The suggested 5–10 operations review interval is unvalidated. This model is not a CAD installation drawing.</footer></main></>;
 }
 
