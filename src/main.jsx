@@ -44,7 +44,20 @@ function Person({position=[0,0,0],lying=false,color='#4da6a0'}) {
     <Block position={[0,1.6,.15]} size={[.27,.11,.04]} color="#e8f2f3"/>
   </group>;
 }
-function Table(){return <group><Block position={[0,.72,0]} size={[1.75,.22,2.35]} color="#8baab0"/><Block position={[0,.43,0]} size={[.48,.52,.55]} color="#668794"/><Block position={[0,.84,-.76]} size={[1.5,.08,.55]} color="#a7bfc4"/><Person position={[0,1.05,0]} lying/><Label position={[0,1.42,.4]} size={.13}>PATIENT</Label><Label position={[0,.43,-1.42]} size={.15}>OT TABLE</Label></group>}
+function Table(){return <group>
+  <Block position={[0,.72,0]} size={[1.75,.22,2.35]} color="#8baab0"/>
+  <Block position={[0,.43,0]} size={[.48,.52,.55]} color="#668794"/>
+  <Block position={[0,.84,-.76]} size={[1.5,.08,.55]} color="#a7bfc4"/>
+  <Person position={[0,1.05,0]} lying/>
+  <Label position={[0,1.42,.4]} size={.13}>PATIENT</Label>
+  <Label position={[0,.43,-1.42]} size={.15}>OT TABLE</Label>
+  {/* Mount the outlet on the table's side panel, away from its patient surface. */}
+  <Block position={[.95,.68,.35]} size={[.14,.32,.58]} color="#e3c36b"/>
+  <Block position={[1.028,.68,.35]} size={[.025,.23,.46]} color="#172d38"/>
+  <Joint position={[1.055,.68,.22]} color={C.electric} r={.045}/>
+  <Joint position={[1.055,.68,.48]} color={C.electric} r={.045}/>
+  <Label position={[1.65,.99,.35]} size={.12}>OT TABLE POWER SOCKET</Label>
+  </group>}
 function Machines(){return <group>
   <Block position={[-3.55,.71,-1.4]} size={[.8,1.42,.75]} color="#446d7b"/><Label position={[-3.55,1.58,-1.4]} size={.14}>ANAESTHESIA</Label>
   <Block position={[3.45,1,-1.55]} size={[.75,1.9,.6]} color="#446d7b"/><Block position={[3.45,1.35,-1.22]} size={[.6,.51,.05]} color="#162c39"/><Label position={[3.45,2.13,-1.55]} size={.14}>MONITOR</Label>
@@ -92,6 +105,7 @@ function Floor({open}){let y=open?.55:.07;return <group>
   <Block position={[1.72,.08,.92]} size={[.38,.14,.34]} color="#518391"/><Joint position={[1.72,.17,.92]} color={C.electric} r={.055}/><Label position={[1.72,.34,.92]} size={.11}>POWER SOCKET</Label>
   <Tube points={[[-1.72,.12,.92],[-1.72,.11,1.75]]} color={C.suction} radius={.023}/>
   <Tube points={[[1.72,.12,.92],[1.72,.11,1.68]]} color={C.electric} radius={.023}/>
+  <Tube points={[[1.72,.2,.92],[1.58,.28,.8],[1.18,.42,.7],[1.055,.68,.48]]} color={C.electric} radius={.022}/>
   <Label position={[1.65,.6,1.55]} size={.14}>service joints near table</Label>
   </group>}
 function Folding({extend,bend}) {
