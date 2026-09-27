@@ -61,7 +61,13 @@ function Table(){return <group>
 function Machines(){return <group>
   <Block position={[-3.55,.71,-1.4]} size={[.8,1.42,.75]} color="#446d7b"/><Label position={[-3.55,1.58,-1.4]} size={.14}>ANAESTHESIA</Label>
   <Block position={[3.45,1,-1.55]} size={[.75,1.9,.6]} color="#446d7b"/><Block position={[3.45,1.35,-1.22]} size={[.6,.51,.05]} color="#162c39"/><Label position={[3.45,2.13,-1.55]} size={.14}>MONITOR</Label>
-  <Block position={[3.4,.49,.75]} size={[.7,.98,.7]} color="#446d7b"/><Label position={[3.4,1.15,.75]} size={.14}>CAUTERY</Label>
+  <Block position={[3.4,.49,.75]} size={[.7,.98,.7]} color="#446d7b"/><Label position={[3.4,1.15,.75]} size={.14}>POWER CART</Label>
+  {/* A compact instrument table puts the cautery unit within Doctor 2's reach. */}
+  <Block position={[1.52,.82,-.5]} size={[.74,.12,.65]} color="#b5cbd0"/>
+  <Block position={[1.52,.41,-.5]} size={[.09,.76,.09]} color="#6d8c98"/>
+  <Block position={[1.52,.96,-.5]} size={[.52,.22,.41]} color="#446d7b"/>
+  <Block position={[1.52,1.03,-.282]} size={[.34,.11,.02]} color="#203b49"/>
+  <Label position={[1.52,1.27,-.5]} size={.13}>CAUTERY UNIT</Label>
   <Block position={[-3.5,.47,.8]} size={[.7,.94,.7]} color="#446d7b"/><Label position={[-3.5,1.12,.8]} size={.14}>SUCTION</Label>
   <Block position={[2.7,.45,-2.22]} size={[.48,.9,.42]} color="#39738a"/><Label position={[2.7,1.1,-2.22]} size={.12}>ECG</Label>
   <Block position={[3.45,.45,-2.3]} size={[.48,.9,.42]} color="#39738a"/><Label position={[3.45,1.1,-2.3]} size={.12}>SpO₂</Label>
@@ -99,13 +105,20 @@ function Floor({open}){let y=open?.55:.07;return <group>
   {[-2.7,-1,1,2.7].map((x,i)=><group key={x}><Block position={[x,.07,1.95]} size={[.34,.12,.65]} color="#397584"/><Label position={[x,.18,1.95]} size={.11}>J{i+1}</Label></group>)}
   <Block position={[0,y,1.95]} size={[6.8,.08,.75]} color="#668b99" transparent opacity={open?.7:1}/>
   <Label position={[0,y+.09,1.95]} size={.13}>{open?'LIFTED SERVICE PANEL':'SEALED ACCESS PANEL'}</Label>
-  <Tube points={[[3.35,.45,.75],[3.4,.12,1.95]]} color={C.electric}/>
-  <Tube points={[[-3.5,.45,.8],[-3.2,.12,1.95]]} color={C.suction}/>
+  {/* Equipment connections drop vertically; the long runs stay beneath the sealed floor. */}
+  <Tube points={[[3.4,.45,.75],[3.4,.12,.75],[3.4,-.14,.75]]} color={C.electric}/>
+  <Tube points={[[3.4,-.14,.75],[3.4,-.14,1.95]]} color={C.electric}/>
+  <Tube points={[[-3.5,.45,.8],[-3.5,.12,.8],[-3.5,-.14,.8]]} color={C.suction}/>
+  <Tube points={[[-3.5,-.14,.8],[-3.5,-.14,1.95]]} color={C.suction}/>
   <Block position={[-1.72,.08,.92]} size={[.38,.14,.34]} color="#518391"/><Joint position={[-1.72,.17,.92]} color={C.suction} r={.055}/><Label position={[-1.72,.34,.92]} size={.11}>SUCTION OUTLET</Label>
   <Block position={[1.72,.08,.92]} size={[.38,.14,.34]} color="#518391"/><Joint position={[1.72,.17,.92]} color={C.electric} r={.055}/><Label position={[1.72,.34,.92]} size={.11}>POWER SOCKET</Label>
-  <Tube points={[[-1.72,.12,.92],[-1.72,.11,1.75]]} color={C.suction} radius={.023}/>
-  <Tube points={[[1.72,.12,.92],[1.72,.11,1.68]]} color={C.electric} radius={.023}/>
-  <Tube points={[[1.72,.2,.92],[1.58,.28,.8],[1.18,.42,.7],[1.055,.68,.48]]} color={C.electric} radius={.022}/>
+  <Tube points={[[-1.72,.17,.92],[-1.72,-.14,.92]]} color={C.suction} radius={.023}/>
+  <Tube points={[[-1.72,-.14,.92],[-1.72,-.14,1.75]]} color={C.suction} radius={.023}/>
+  <Tube points={[[1.72,.17,.92],[1.72,-.14,.92]]} color={C.electric} radius={.023}/>
+  <Tube points={[[1.72,-.14,.92],[1.72,-.14,1.68]]} color={C.electric} radius={.023}/>
+  {/* No wire crosses the walking surface: power rises straight up at the table side. */}
+  <Tube points={[[1.72,-.14,.92],[1.72,-.14,.48],[1.055,-.14,.48]]} color={C.electric} radius={.022}/>
+  <Tube points={[[1.055,-.14,.48],[1.055,.06,.48],[1.055,.68,.48]]} color={C.electric} radius={.022}/>
   <Label position={[1.65,.6,1.55]} size={.14}>service joints near table</Label>
   </group>}
 function Folding({extend,bend}) {
